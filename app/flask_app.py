@@ -5,7 +5,7 @@ from app.models import User, Mechanic, ServiceTicket
 
 # Use production config for Gunicorn, development for local
 env = 'production' if os.getenv('GUNICORN_CMD_ARGS') else 'development'
-app = create_app(env)
+app = create_app('production')
 
 if __name__ == '__main__':
     print(f"Running in {os.getenv('FLASK_ENV', 'dev')} mode")

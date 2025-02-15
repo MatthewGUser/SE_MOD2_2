@@ -25,9 +25,14 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
 
-class ProductionConfig:
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+class ProductionConfig(Config):
+    DEBUG = False
+    TESTING = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     CACHE_TYPE = "SimpleCache"
+    RATELIMIT_STORAGE_URL = "memory://"
 
 class TestingConfig(Config):  # Changed from TestConfig to TestingConfig
     TESTING = True

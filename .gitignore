@@ -62,3 +62,7 @@ coverage.xml
 # Logs
 *.log
 logs/
+
+.env
+*.pyc
+__pycache__/
