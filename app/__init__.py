@@ -39,6 +39,10 @@ def create_app(config_name='development'):
     """Create and configure the Flask application"""
     app = Flask(__name__)
     
+    # Use testing config when running tests
+    if os.getenv('PYTEST_CURRENT_TEST'):
+        config_name = 'testing'
+    
     # Load configuration
     app.config.from_object(config[config_name])
     
