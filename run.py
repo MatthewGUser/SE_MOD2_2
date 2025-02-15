@@ -1,7 +1,7 @@
 from app import create_app, db
 
 # Create app instance with explicit environment
-app = create_app('development')
+app = create_app('production')
 
 @app.cli.command("init-db")
 def init_db():
@@ -11,6 +11,6 @@ def init_db():
 
 if __name__ == '__main__':
     # Use FLASK_ENV or default to development
-    env = app.config.get('ENV', 'development')
+    env = app.config.get('ENV', 'production')
     print(f"Running in {env} mode")
     app.run(debug=True)

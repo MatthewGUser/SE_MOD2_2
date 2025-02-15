@@ -109,4 +109,4 @@ def create_app(config_name='production'):
     return app
 
 # Create the application instance
-app = create_app(os.getenv('FLASK_ENV', 'development'))
+app = create_app(os.getenv('FLASK_ENV', 'production'))

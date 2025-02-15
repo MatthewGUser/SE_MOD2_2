@@ -1,14 +1,12 @@
 import os
-from app import create_app, db
-from config import config
-from app.models import User, Mechanic, ServiceTicket
+from app import create_app
 
 # Use production config for Gunicorn, development for local
 env = 'production' if os.getenv('GUNICORN_CMD_ARGS') else 'development'
 app = create_app('production')
 
 if __name__ == '__main__':
-    print(f"Running in {os.getenv('FLASK_ENV', 'dev')} mode")
+    print(f"Running in {os.getenv('FLASK_ENV', 'prod')} mode")
     app.run(debug=True, port=5000)
 
 # Register CLI commands
