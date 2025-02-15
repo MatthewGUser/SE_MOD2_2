@@ -22,9 +22,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
 
-class ProductionConfig(Config):
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI_PROD')
+class ProductionConfig:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    CACHE_TYPE = "SimpleCache"
 
 class TestingConfig(Config):  # Changed from TestConfig to TestingConfig
     TESTING = True
@@ -41,7 +41,7 @@ class TestingConfig(Config):  # Changed from TestConfig to TestingConfig
 
 config = {
     'development': DevelopmentConfig,
-    'testing': TestingConfig,  # Updated to match new class name
+    'testing': TestingConfig,
     'production': ProductionConfig,
     'default': DevelopmentConfig
 }
