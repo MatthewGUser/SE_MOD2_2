@@ -3,6 +3,8 @@ from datetime import datetime, timedelta, timezone
 from functools import wraps
 from flask import request, jsonify
 from config import Config
+import os
+SECRET_KEY = os.environ.get('SECRET_KEY') or "super secret secrets"
 
 def encode_auth_token(user_id):
     """Generate JWT token for user"""
