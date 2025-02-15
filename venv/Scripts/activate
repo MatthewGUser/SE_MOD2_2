@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\mglad\CodingTemple\Special\SE_Mod2_1\venv"
+VIRTUAL_ENV="C:\Users\mglad\CodingTemple\Special\SE_MOD2_2\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

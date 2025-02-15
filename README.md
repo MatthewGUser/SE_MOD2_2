@@ -20,6 +20,9 @@ A Flask-based REST API for managing an auto service center, including customers,
 
 ```
 SE_MOD2_1/
+├── .github/
+│   └── workflows/
+|   │   └── main.yml
 ├── app/
 │   ├── components/
 |   │   ├── blueprints/
@@ -49,6 +52,7 @@ SE_MOD2_1/
 │   └── models.py
 ├── tests/
 │   ├── __init__.py
+│   ├── app.py
 │   ├── test_inventory.py
 │   ├── test_mechanics.py
 │   ├── test_service_tickets.py
@@ -56,11 +60,11 @@ SE_MOD2_1/
 ├── instance/
 │   └── app.db
 ├── .env
-├── app.py
 ├── collection.json
 ├── config.py
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── run.py
 ```
 
 ## Installation
@@ -95,7 +99,7 @@ set FLASK_ENV=development
 ## Running the Application
 
 ```
-python app.py
+python run.py
 ```
 
 ## Testing the Application
