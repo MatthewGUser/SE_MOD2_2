@@ -49,10 +49,10 @@ SE_MOD2_1/
 |   ├──utils/
 │   │   └── util.py
 │   ├── extensions.py
+|   ├── flask_app.py
 │   └── models.py
 ├── tests/
 │   ├── __init__.py
-│   ├── app.py
 │   ├── test_inventory.py
 │   ├── test_mechanics.py
 │   ├── test_service_tickets.py
@@ -60,11 +60,14 @@ SE_MOD2_1/
 ├── instance/
 │   └── app.db
 ├── .env
+├── .gitignore
 ├── collection.json
 ├── config.py
 ├── README.md
 ├── requirements.txt
-└── run.py
+├── run.py
+└── wsgi.py
+
 ```
 
 ## Installation
@@ -108,6 +111,12 @@ Run all tests:
 
 ```bash
 python -m unittest discover tests -v
+```
+
+or
+
+```bash
+python -m pytest tests/ -v
 ```
 
 Run specific test files:
