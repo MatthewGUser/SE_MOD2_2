@@ -17,12 +17,12 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
-    # Fix database URL format
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     if SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     SECRET_KEY = os.getenv('SECRET_KEY')
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    RATELIMIT_STORAGE_URI = os.getenv('RATELIMIT_STORAGE_URI')
 
 class TestingConfig(Config):
     TESTING = True
