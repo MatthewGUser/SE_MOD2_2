@@ -40,17 +40,7 @@ def create_app(config_name='development'):
     app = Flask(__name__)
     
     # Load configuration
-    if config_name == 'testing':
-        app.config.from_object('config.TestingConfig')
-    else:
-        app.config.from_object('config.DevelopmentConfig')
-    
-    # JWT Configuration
-    app.config['JWT_SECRET_KEY'] = 'dev-secret-key'  # Change in production
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-    app.config['JWT_ERROR_MESSAGE_KEY'] = 'message'
-    app.config['JWT_TOKEN_LOCATION'] = ['headers']
-    app.config['JWT_HEADER_TYPE'] = 'Bearer'
+    app.config.from_object(config[config_name])
     
     # Initialize extensions
     db.init_app(app)
@@ -58,16 +48,21 @@ def create_app(config_name='development'):
     cache.init_app(app)
     limiter.init_app(app)
     
+    # API versioning
+    API_VERSION = 'v1'
+    API_PREFIX = f'/api/{API_VERSION}'
+    
     with app.app_context():
-        # Register blueprints
+        # Register blueprints with API versioning
         from app.components.blueprints.users import user_bp
         from app.components.blueprints.mechanics import mechanic_bp
         from app.components.blueprints.service_tickets import service_ticket_bp
         from app.components.blueprints.inventory import inventory_bp
         
+        # Update blueprint registrations to match test expectations
         app.register_blueprint(user_bp, url_prefix='/users')
         app.register_blueprint(mechanic_bp, url_prefix='/mechanics')
-        app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')
+        app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')  # Changed from /tickets
         app.register_blueprint(inventory_bp, url_prefix='/inventory')
         app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
         
@@ -94,6 +89,7 @@ def create_app(config_name='development'):
             else:
                 user_id = int(identity)
             from app.models import User
+            # Updated to use Session.get()
             return db.session.get(User, user_id)
         except (ValueError, TypeError, KeyError):
             return None

@@ -25,7 +25,10 @@ def login():
         data = request.get_json()
         validated_data = login_schema.load(data)
         
-        user = User.query.filter_by(email=validated_data['email']).first()
+        user = db.session.execute(
+            db.select(User).filter_by(email=validated_data['email'])
+        ).scalar_one_or_none()
+        
         if not user or not user.check_password(validated_data['password']):
             return jsonify({
                 'error': 'Invalid credentials',
@@ -63,8 +66,11 @@ def register():
                 'message': 'Please provide name, email, password, and phone'
             }), 400
 
-        # Check for existing email
-        if User.query.filter_by(email=data['email']).first():
+        existing_user = db.session.execute(
+            db.select(User).filter_by(email=data['email'])
+        ).scalar_one_or_none()
+        
+        if existing_user:
             return jsonify({
                 'error': 'Email already registered',
                 'message': 'This email is already in use'
@@ -148,7 +154,10 @@ def update_user(id):
         if str(current_user_id) != str(id):
             return jsonify({'message': 'Can only update your own profile'}), 403
             
-        user = User.query.get_or_404(id)
+        user = db.session.get(User, id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+            
         data = request.get_json()
         
         # Validate the update data
@@ -180,7 +189,10 @@ def update_user(id):
 def delete_user(id):
     """Delete user account"""
     try:
-        user = User.query.get_or_404(id)
+        user = db.session.get(User, id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+            
         db.session.delete(user)
         db.session.commit()
         
@@ -198,17 +210,9 @@ def delete_user(id):
 @user_bp.route('/<int:id>', methods=['GET'])
 @jwt_required()
 def get_user(id):
-    """Get user details - accessible to any authenticated user"""
-    try:
-        user = User.query.get(id)
-        if not user:
-            return jsonify({
-                'message': 'User not found',
-                'user_id': id
-            }), 404
-        return jsonify(user_schema.dump(user)), 200
-    except Exception as e:
-        return jsonify({
-            'error': 'Database error',
-            'message': str(e)
-        }), 500
+    """Get a specific user"""
+    # Updated to use Session.get()
+    user = db.session.get(User, id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    return jsonify(user.to_dict()), 200

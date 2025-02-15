@@ -1,7 +1,4 @@
-from app import create_app
-
-# Create app with production config for Gunicorn
-app = create_app('production')
+from app.flask_app import app
 
 if __name__ == '__main__':
     app.run()
