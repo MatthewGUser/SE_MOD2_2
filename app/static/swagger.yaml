@@ -1,0 +1,357 @@
+openapi: 3.0.0
+info:
+ title: advanced-api-development-V2
+ version: 1.0.0
+servers:
+ - url: http://{{base_url}}
+components:
+ securitySchemes:
+  bearerAuth:
+   type: http
+   scheme: bearer
+security:
+ - bearerAuth: []
+tags:
+ - name: Users
+ - name: Service Tickets
+ - name: Mechanics
+ - name: Inventory
+paths:
+ /users:
+  get:
+   tags:
+    - Users
+   summary: Paginated Users
+   security:
+    - bearerAuth: []
+   parameters:
+    - name: page
+      in: query
+      schema:
+       type: integer
+      example: "1"
+    - name: per_page
+      in: query
+      schema:
+       type: integer
+      example: "10"
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /users/my-tickets:
+  get:
+   tags:
+    - Users
+   summary: Get Tickets
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /users/register:
+  post:
+   tags:
+    - Users
+   summary: Register
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        name: Test User
+        email: user@example.com
+        password: password123
+        phone: 123-456-7890
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /users/login:
+  post:
+   tags:
+    - Users
+   summary: Login
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        email: user@example.com
+        password: password123
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /users/1:
+  put:
+   tags:
+    - Users
+   summary: Update User
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        name: Updated Name
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  delete:
+   tags:
+    - Users
+   summary: Delete User
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /service-tickets:
+  get:
+   tags:
+    - Service Tickets
+   summary: Paginated Tickets
+   parameters:
+    - name: page
+      in: query
+      schema:
+       type: integer
+      example: "1"
+    - name: per_page
+      in: query
+      schema:
+       type: integer
+      example: "10"
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  post:
+   tags:
+    - Service Tickets
+   summary: Create Ticket
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        title: Test Ticket
+        description: Test Description
+        status: pending
+        priority: normal
+        mechanic_ids:
+         - 1
+        part_ids:
+         - 1
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /service-tickets/1:
+  get:
+   tags:
+    - Service Tickets
+   summary: Get Ticket
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  put:
+   tags:
+    - Service Tickets
+   summary: Update Ticket
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        VIN: 1HGCM82633A123456
+        description: Updated oil change and tire rotation
+        service_date: "2024-02-15"
+        mechanic_ids:
+         - 1
+         - 2
+        part_ids:
+         - 1
+         - 3
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  delete:
+   tags:
+    - Service Tickets
+   summary: Delete Ticket
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /mechanics:
+  get:
+   tags:
+    - Mechanics
+   summary: Paginated Mechanics
+   parameters:
+    - name: page
+      in: query
+      schema:
+       type: integer
+      example: "1"
+    - name: per_page
+      in: query
+      schema:
+       type: integer
+      example: "10"
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  post:
+   tags:
+    - Mechanics
+   summary: Create Mechanic
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        name: John Smith
+        specialty: Engine Repair
+        email: john@example.com
+        phone: 123-456-7890
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /mechanics/1:
+  get:
+   tags:
+    - Mechanics
+   summary: Get Mechanic
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  put:
+   tags:
+    - Mechanics
+   summary: Update Mechanic
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        salary: 80000
+        phone: 987-654-3210
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  delete:
+   tags:
+    - Mechanics
+   summary: Delete Mechanic
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /inventory:
+  get:
+   tags:
+    - Inventory
+   summary: Get All Parts
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  post:
+   tags:
+    - Inventory
+   summary: Create Part
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        name: Brake Pad
+        part_number: BP-2024-001
+        price: 45.99
+        quantity: 50
+   security:
+    - bearerAuth: []
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+ /inventory/1:
+  put:
+   tags:
+    - Inventory
+   summary: Update Part
+   requestBody:
+    content:
+     application/json:
+      schema:
+       type: object
+       example:
+        name: Updated Part Name
+        part_number: BP-2024-001
+        price: 29.99
+        quantity: 50
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
+  delete:
+   tags:
+    - Inventory
+   summary: Delete Part
+   responses:
+    "200":
+     description: Successful response
+     content:
+      application/json: {}
