@@ -1,4 +1,5 @@
 import warnings
+import os
 from sqlalchemy import exc as sa_exc
 
 from flask import Flask, jsonify
@@ -13,7 +14,6 @@ from config import config
 
 # Suppress SQLAlchemy warnings
 warnings.filterwarnings('ignore', category=sa_exc.SAWarning)
-warnings.filterwarnings('ignore', r'.*Legacy API.*')
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -36,7 +36,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 
 def create_app(config_name='development'):
-    """Application factory function"""
+    """Create and configure the Flask application"""
     app = Flask(__name__)
     
     # Load configuration
@@ -59,6 +59,18 @@ def create_app(config_name='development'):
     limiter.init_app(app)
     
     with app.app_context():
+        # Register blueprints
+        from app.components.blueprints.users import user_bp
+        from app.components.blueprints.mechanics import mechanic_bp
+        from app.components.blueprints.service_tickets import service_ticket_bp
+        from app.components.blueprints.inventory import inventory_bp
+        
+        app.register_blueprint(user_bp, url_prefix='/users')
+        app.register_blueprint(mechanic_bp, url_prefix='/mechanics')
+        app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')
+        app.register_blueprint(inventory_bp, url_prefix='/inventory')
+        app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+        
         # Create database tables
         db.create_all()
     
@@ -94,19 +106,7 @@ def create_app(config_name='development'):
             "message": str(e.description)
         }), 429
     
-    # Register blueprints
-    register_blueprints(app)
-    
     return app
 
-def register_blueprints(app):
-    from app.components.blueprints.users import user_bp  # Import from __init__.py
-    from app.components.blueprints.mechanics import mechanic_bp
-    from app.components.blueprints.service_tickets import service_ticket_bp
-    from app.components.blueprints.inventory import inventory_bp 
-    
-    app.register_blueprint(user_bp, url_prefix='/users')
-    app.register_blueprint(mechanic_bp, url_prefix='/mechanics')
-    app.register_blueprint(service_ticket_bp, url_prefix='/service-tickets')
-    app.register_blueprint(inventory_bp, url_prefix='/inventory')
-    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+# Create the application instance
+app = create_app(os.getenv('FLASK_ENV', 'development'))

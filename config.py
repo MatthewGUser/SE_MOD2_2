@@ -13,6 +13,9 @@ class Config:
     RATELIMIT_STORAGE_URL = "memory://"
     RATELIMIT_DEFAULT = "200 per day"
     RATELIMIT_HEADERS_ENABLED = True
+    RATELIMIT_HEADER_LIMIT = "X-RateLimit-Limit"
+    RATELIMIT_HEADER_REMAINING = "X-RateLimit-Remaining"
+    RATELIMIT_HEADER_RESET = "X-RateLimit-Reset"
     
     # Cache configuration
     CACHE_TYPE = "SimpleCache"
@@ -31,13 +34,14 @@ class TestingConfig(Config):  # Changed from TestConfig to TestingConfig
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'test-secret'
-    JWT_SECRET_KEY = 'jwt-test-secret'
+    JWT_SECRET_KEY = 'test-secret-key'
     JWT_TOKEN_LOCATION = ['headers']
     JWT_HEADER_NAME = 'Authorization'
     JWT_HEADER_TYPE = 'Bearer'
     JWT_ACCESS_TOKEN_EXPIRES = False
     CACHE_TYPE = 'NullCache'
     RATELIMIT_ENABLED = False
+    WTF_CSRF_ENABLED = False
 
 config = {
     'development': DevelopmentConfig,
