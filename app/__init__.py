@@ -35,7 +35,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
     }
 )
 
-def create_app(config_name='development'):
+def create_app(config_name='production'):
     """Create and configure the Flask application"""
     app = Flask(__name__)
     
