@@ -24,9 +24,15 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"]
 )
 
+# API versioning
+API_VERSION = 'v1'
+API_PREFIX = f'/api/{API_VERSION}'
+
 # Swagger configuration
-SWAGGER_URL = '/api/docs'
-API_URL = '/static/swagger.yaml'
+SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI
+API_URL = '/static/swagger.yml'  # Our API url (can of course be a local resource)
+
+# Create Swagger UI blueprint
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,

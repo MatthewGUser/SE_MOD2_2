@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
  title: Auto Shop API
  version: 1.0.0
-host: se-mod2-2-1.onrender.com
+host: se-mod2-2.onrender.com
 basePath: /api/v1
 schemes:
  - https
