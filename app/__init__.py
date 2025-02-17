@@ -58,10 +58,6 @@ def create_app(config_name='production'):
     cache.init_app(app)
     limiter.init_app(app)
     
-    # API versioning
-    API_VERSION = 'v1'
-    API_PREFIX = f'/api/{API_VERSION}'
-    
     with app.app_context():
         # Register blueprints with API versioning
         from app.components.blueprints.users import user_bp
